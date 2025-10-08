@@ -61,10 +61,17 @@ test.describe('ToolsQA Rest Assured flow', () => {
     // The HTML <title> on the site may be longer (e.g. "HTTP Request - What is it? ...").
     // Verify either the document title contains the phrase or the page H1 equals the expected heading.
     const expectedHeading = 'What is HTTP Request?';
-    await expect(page).toHaveTitle(new RegExp(expectedHeading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i')).catch(async () => {
+
+    // helper to escape special characters for RegExp from a string
+    const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    // Use try/catch instead of mixing await with .catch for clearer stack traces
+    try {
+      await expect(page).toHaveTitle(new RegExp(escapeRegExp(expectedHeading), 'i'));
+    } catch (e) {
       // Fallback: assert the visible H1 heading text
       const h1 = page.locator('h1').first();
       await expect(h1).toHaveText(expectedHeading, { timeout: 5000 });
-    });
+    }
   });
 });
