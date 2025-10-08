@@ -67,7 +67,11 @@ test.describe('ToolsQA Rest Assured flow', () => {
 
     // Use try/catch instead of mixing await with .catch for clearer stack traces
     try {
-      await expect(page).toHaveTitle(new RegExp(escapeRegExp(expectedHeading), 'i'));
+      // Read the document title and assert with a RegExp. Using `page.title()`
+      // avoids any subtle matcher/wrapper differences between Playwright
+      // runner environments.
+      const title = await page.title();
+      expect(title).toMatch(new RegExp(escapeRegExp(expectedHeading), 'i'));
     } catch (e) {
       // Fallback: assert the visible H1 heading text
       const h1 = page.locator('h1').first();
