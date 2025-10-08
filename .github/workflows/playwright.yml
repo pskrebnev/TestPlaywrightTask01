@@ -35,7 +35,9 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npx playwright test --reporter=github
+        # Use both the GitHub reporter (for annotations) and the HTML reporter
+        # so that an HTML report directory `playwright-report` is created for upload.
+        run: npx playwright test --reporter=github,html
 
       - name: Upload Playwright report
         if: always()
