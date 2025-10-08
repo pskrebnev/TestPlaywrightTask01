@@ -25,6 +25,8 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    /* Run browsers in headless mode by default; honor HEADLESS env var (set to 'false' for headed) */
+    headless: process.env.HEADLESS ? process.env.HEADLESS !== 'false' : true,
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
 

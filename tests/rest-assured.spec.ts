@@ -11,19 +11,19 @@ test.describe('ToolsQA Rest Assured flow', () => {
     const restLinkByRole = page.getByRole('link', { name: /Rest Assured/i });
     if (await restLinkByRole.count() > 0) {
       await Promise.all([
-        page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+        page.waitForURL(/rest-assured/i),
         restLinkByRole.first().click(),
       ]);
     } else if (await page.locator('img[alt*="Rest Assured"]').count() > 0) {
       await Promise.all([
-        page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+        page.waitForURL(/rest-assured/i),
         page.locator('img[alt*="Rest Assured"]').first().click(),
       ]);
     } else {
       // fallback: click any visible text link or element that contains "Rest Assured"
       const fallback = page.getByText(/Rest Assured/i).first();
       await Promise.all([
-        page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+        page.waitForURL(/rest-assured/i),
         fallback.click(),
       ]);
     }
@@ -46,13 +46,13 @@ test.describe('ToolsQA Rest Assured flow', () => {
     const httpLink = page.getByRole('link', { name: /HTTP Request/i });
     if (await httpLink.count() > 0) {
       await Promise.all([
-        page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+        page.waitForURL(/http-request/i),
         httpLink.first().click(),
       ]);
     } else {
       // fallback to clicking any visible text matching HTTP Request
       await Promise.all([
-        page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+        page.waitForURL(/http-request/i),
         page.getByText(/HTTP Request/i).first().click(),
       ]);
     }
